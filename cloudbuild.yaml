@@ -28,6 +28,6 @@ steps:
   - 'PC_NAME=$_PC_NAME'
 - id: 'Download Template'
   name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', 'gs://bank-of-anthos/.ova', '.']
+  args: ['cp', 'gs://bank-of-anthos/Bank-of-Anthos-V2.ova', '.']
   waitFor: ['-']
 timeout: 28800s

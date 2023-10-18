@@ -4,6 +4,10 @@ terraform {
       source = "hashicorp/google"
       version = "5.1.0"
     }
+    local = {
+      source = "hashicorp/local"
+      version = "2.4.0"
+    }
   }
   backend "gcs" {
   }
@@ -38,4 +42,12 @@ resource "google_vmwareengine_network" "turin-network" {
   location    = "europe-west12"
   type        = "LEGACY"
   description = "PC network description."
+}
+
+resource "local_file" "vcenter-fqdn" {
+  filename = "/workspace/vcenter-fqdn.txt"
+}
+
+data "local_file" "nsx-fqdn" {
+  filename = "/workspace/nsx-fqdn.txt"
 }

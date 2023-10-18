@@ -1,26 +1,14 @@
-# Copyright 2019 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
 steps:
-- id: 'tf init'
+- id: 'initial terraform'
   name: 'hashicorp/terraform:latest'
   entrypoint: 'sh'
   args: 
   - '-c'
   - |
       export TF_VAR_project=$PROJECT_ID
+      export TF_VAR_region=$_REGION
+      export TF_VAR_pc-name=$_PC_NAME
+      export TF_VAR_zone=$_REGION-$_ZONE
       echo ""
       echo "*************** TERRAFORM INIT ******************"
       echo "******* At environment: $PROJECT_ID ********"
@@ -28,4 +16,18 @@ steps:
       terraform init -backend-config="bucket=tf-state-vmware-explore" || exit 1
       terraform plan || exit 1  
       terraform apply -auto-approve || exit 1
+- id: 'credential to secret'
+  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: bash
+  args: ['./get-credential.sh']
+  env:
+  - 'LOCATION=${_REGION}-${_ZONE}'
+  - 'GCVE_REGION=$_GCVE_REGION'
+  - 'VCENTER_SECRET=$_VCENTER_SECRET'
+  - 'NSX_SECRET=$_NSX_SECRET'
+  - 'PC_NAME=$_PC_NAME'
+- id: 'Download Template'
+  name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', 'gs://bank-of-anthos/.ova', '.']
+  waitFor: ['-']
 timeout: 28800s

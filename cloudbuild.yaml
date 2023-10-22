@@ -46,6 +46,7 @@ steps:
       export TF_VAR_nsxsecret=$_NSX_SECRET
       export TF_VAR_secret=$_VCENTER_SECRET
       export TF_VAR_ovfpath=/workspace/Bank-of-Anthos-V2.ova
+      export TF_LOG=INFO
       echo ""
       echo "*************** TERRAFORM Stage 2 ******************"
       echo "******* At environment: $PROJECT_ID ****************"

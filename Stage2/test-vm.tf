@@ -24,7 +24,7 @@ resource "vsphere_folder" "folder" {
 }
 
 data "vsphere_network" "network" {
-  name          = "terraform-test-segment"
+  name          = nsxt_policy_fixed_segment.terraform-test.display_name
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 

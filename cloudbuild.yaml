@@ -28,10 +28,6 @@ steps:
   - 'NSX_SECRET=$_NSX_SECRET'
   - 'PC_NAME=$_PC_NAME'
   - 'VPC=$_VPC'
-- id: 'Download Template'
-  name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', '$_TEMPLATE', '.']
-  waitFor: ['-']
 - id: 'stage 2 terraform'
   name: 'hashicorp/terraform:latest'
   entrypoint: 'sh'

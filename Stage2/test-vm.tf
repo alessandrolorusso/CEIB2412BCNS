@@ -48,7 +48,7 @@ resource "vsphere_virtual_machine" "vm" {
   }
 
   clone {
-    template_uuid = data.vsphere_content_library_item.item.id
+    template_uuid = data.vsphere_content_library_item.bank-of-anthos-template.id
   }
 
 }

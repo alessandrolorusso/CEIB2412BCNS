@@ -1,0 +1,4 @@
+- id: 'Download Template'
+  name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', '$_TEMPLATE', '.']
+  waitFor: ['-']

@@ -23,13 +23,14 @@ steps:
   args: ['./get-credential.sh']
   env:
   - 'LOCATION=${_REGION}-${_ZONE}'
-  - 'GCVE_REGION=$_GCVE_REGION'
+  - 'REGION=$_REGION'
   - 'VCENTER_SECRET=$_VCENTER_SECRET'
   - 'NSX_SECRET=$_NSX_SECRET'
   - 'PC_NAME=$_PC_NAME'
+  - 'VPC=$_VPC'
 - id: 'Download Template'
   name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', 'gs://bank-of-anthos/Bank-of-Anthos-V2.ova', '.']
+  args: ['cp', '$_TEMPLATE', '.']
   waitFor: ['-']
 - id: 'stage 2 terraform'
   name: 'hashicorp/terraform:latest'
@@ -42,6 +43,9 @@ steps:
       export TF_VAR_region=$_REGION
       export TF_VAR_pc_name=$_PC_NAME
       export TF_VAR_zone=$_REGION-$_ZONE
+      export TF_VAR_nsxsecret=$_NSX_SECRET
+      export TF_VAR_secret=$_VCENTER_SECRET
+      export TF_VAR_ovfpath="/workspace/Bank-of-Anthos-V2.ova"
       echo ""
       echo "*************** TERRAFORM Stage 2 ******************"
       echo "******* At environment: $PROJECT_ID ****************"
@@ -50,3 +54,6 @@ steps:
       terraform plan || exit 1  
       terraform apply -auto-approve || exit 1
 timeout: 28800s
+options:
+  pool:
+    name: 'projects/$PROJECT_ID/locations/europe-west6/workerPools/europe-west6'

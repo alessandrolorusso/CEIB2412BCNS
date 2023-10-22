@@ -18,7 +18,7 @@ steps:
       terraform plan || exit 1  
       terraform apply -auto-approve || exit 1
 - id: 'credential to secret'
-  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: bash
   args: ['./get-credential.sh']
   env:

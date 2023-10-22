@@ -21,6 +21,10 @@ terraform {
     }
 }
 
+provider google {
+  project = var.project
+}
+
 data "local_file" "vcenter-fqdn" {
   filename = "/workspace/vcenter-fqdn.txt"
 }

@@ -1,19 +1,20 @@
 steps:
-- id: 'initial terraform'
+- id: 'stage 1 terraform'
   name: 'hashicorp/terraform:latest'
   entrypoint: 'sh'
   args: 
   - '-c'
   - |
+      cd Stage1
       export TF_VAR_project=$PROJECT_ID
       export TF_VAR_region=$_REGION
       export TF_VAR_pc_name=$_PC_NAME
       export TF_VAR_zone=$_REGION-$_ZONE
       echo ""
-      echo "*************** TERRAFORM INIT ******************"
+      echo "*************** TERRAFORM Stage 1 ******************"
       echo "******* At environment: $PROJECT_ID ********"
       echo "*************************************************"
-      terraform init -backend-config="bucket=tf-state-vmware-explore" || exit 1
+      terraform init -backend-config="bucket=$_BUCKET_TFSTATE" || exit 1
       terraform plan || exit 1  
       terraform apply -auto-approve || exit 1
 - id: 'credential to secret'
@@ -30,4 +31,22 @@ steps:
   name: 'gcr.io/cloud-builders/gsutil'
   args: ['cp', 'gs://bank-of-anthos/Bank-of-Anthos-V2.ova', '.']
   waitFor: ['-']
+- id: 'stage 2 terraform'
+  name: 'hashicorp/terraform:latest'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - |
+      cd Stage1
+      export TF_VAR_project=$PROJECT_ID
+      export TF_VAR_region=$_REGION
+      export TF_VAR_pc_name=$_PC_NAME
+      export TF_VAR_zone=$_REGION-$_ZONE
+      echo ""
+      echo "*************** TERRAFORM Stage 2 ******************"
+      echo "******* At environment: $PROJECT_ID ****************"
+      echo "****************************************************"
+      terraform init -backend-config="bucket=$_BUCKET_TFSTATE" || exit 1
+      terraform plan || exit 1  
+      terraform apply -auto-approve || exit 1
 timeout: 28800s

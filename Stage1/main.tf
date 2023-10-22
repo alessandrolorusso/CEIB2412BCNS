@@ -43,11 +43,3 @@ resource "google_vmwareengine_network" "turin-network" {
   type        = "LEGACY"
   description = "PC network description."
 }
-
-resource "local_file" "vcenter-fqdn" {
-  filename = "/workspace/vcenter-fqdn.txt"
-}
-
-data "local_file" "nsx-fqdn" {
-  filename = "/workspace/nsx-fqdn.txt"
-}

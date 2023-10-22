@@ -23,13 +23,31 @@ resource "vsphere_folder" "folder" {
   datacenter_id = "${data.vsphere_datacenter.datacenter.id}"
 }
 
+data "vsphere_network" "network" {
+  name          = "terraform-test-segment"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
 data "vsphere_content_library" "content_library" {
   name = "ContentLibrary"
 }
 
-resource "vsphere_content_library_item" "content_library_item" {
+data "vsphere_content_library_item" "bank-of-anthos-template" {
   name        = "Bank-Of-Anthos"
-  description = "Bank Of Anthos Template"
-  file_url    = var.ovfpath
   library_id  = data.vsphere_content_library.content_library.id
+}
+
+resource "vsphere_virtual_machine" "vm" {
+  name             = "terraform-test"
+  resource_pool_id = data.vsphere_resource_pool.default.id
+  datastore_id     = data.vsphere_datastore.datastore.id
+
+  network_interface {
+    network_id = data.vsphere_network.network.id
+  }
+
+  clone {
+    template_uuid = data.vsphere_content_library_item.item.id
+  }
+
 }

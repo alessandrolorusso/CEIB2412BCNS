@@ -25,7 +25,7 @@ resource "vsphere_folder" "folder" {
 
 data "vsphere_network" "network" {
   name          = nsxt_policy_fixed_segment.terraform-test.display_name
-  datacenter_id = data.vsphere_datacenter.dc.id
+  datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_content_library" "content_library" {
@@ -35,6 +35,7 @@ data "vsphere_content_library" "content_library" {
 data "vsphere_content_library_item" "bank-of-anthos-template" {
   name        = "Bank-Of-Anthos"
   library_id  = data.vsphere_content_library.content_library.id
+  type        = "ovf"
 }
 
 resource "vsphere_virtual_machine" "vm" {

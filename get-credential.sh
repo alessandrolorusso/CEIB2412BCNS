@@ -10,7 +10,7 @@ if [ -z $(gcloud vmware private-connections list --location $REGION --format="va
         echo "Private Connection not present"
         # Get the service project
         service_project=$(gcloud compute networks peerings list --network=$VPC --flatten=peerings --filter=peerings.name:servicenetworking-googleapis-com --format="value(peerings.network)" | cut -d \/ -f 7)
-        gcloud vmware private-connections create --service-project=$service_project --type=PRIVATE_SERVICE_ACCESS --vmware-engine-network=$REGION-default || exit 1
+        gcloud vmware private-connections create --service-project=$service_project --type=PRIVATE_SERVICE_ACCESS --vmware-engine-network=$REGION-default --location=$REGION || exit 1
     else
         echo "Private Connection already present"
 fi

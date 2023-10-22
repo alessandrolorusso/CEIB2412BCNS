@@ -28,6 +28,10 @@ steps:
   - 'NSX_SECRET=$_NSX_SECRET'
   - 'PC_NAME=$_PC_NAME'
   - 'VPC=$_VPC'
+- id: 'Download Template'
+  name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', 'gs://$_BUCKET_TEMPLATE/$_TEMPLATE', '.']
+  waitFor: ['-']
 - id: 'stage 2 terraform'
   name: 'hashicorp/terraform:latest'
   entrypoint: 'sh'
@@ -41,7 +45,7 @@ steps:
       export TF_VAR_zone=$_REGION-$_ZONE
       export TF_VAR_nsxsecret=$_NSX_SECRET
       export TF_VAR_secret=$_VCENTER_SECRET
-      export TF_VAR_ovfpath=/workspace/bank-of-anthos.ova
+      export TF_VAR_ovfpath=/workspace/$_TEMPLATE
       export TF_LOG=INFO
       echo ""
       echo "*************** TERRAFORM Stage 2 ******************"

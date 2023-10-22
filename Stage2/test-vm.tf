@@ -28,15 +28,8 @@ data "vsphere_network" "network" {
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
-data "vsphere_content_library" "content_library" {
-  name = "ContentLibrary"
-}
 
-data "vsphere_content_library_item" "bank-of-anthos-template" {
-  name        = "Bank-Of-Anthos"
-  library_id  = data.vsphere_content_library.content_library.id
-  type        = "ovf"
-}
+
 
 resource "vsphere_virtual_machine" "vm" {
   name             = "terraform-test"
@@ -47,8 +40,8 @@ resource "vsphere_virtual_machine" "vm" {
     network_id = data.vsphere_network.network.id
   }
 
-  clone {
-    template_uuid = data.vsphere_content_library_item.bank-of-anthos-template.id
+  ovf_deploy {
+    local_ovf_path = var.ovfpath
   }
 
 }

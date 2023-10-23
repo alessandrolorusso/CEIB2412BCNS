@@ -27,21 +27,3 @@ data "vsphere_network" "network" {
   name          = nsxt_policy_fixed_segment.terraform-test.display_name
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
-
-
-
-
-resource "vsphere_virtual_machine" "vm" {
-  name             = "terraform-test"
-  resource_pool_id = data.vsphere_resource_pool.default.id
-  datastore_id     = data.vsphere_datastore.datastore.id
-
-  network_interface {
-    network_id = data.vsphere_network.network.id
-  }
-
-  ovf_deploy {
-    local_ovf_path = var.ovfpath
-  }
-
-}

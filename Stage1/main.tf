@@ -31,7 +31,7 @@ resource "google_vmwareengine_private_cloud" "vmw-engine-pc" {
     cluster_id = "cluster"
     node_type_configs {
       node_type_id = "standard-72"
-      node_count   = 3
+      node_count   = 4
     }
   }
 }

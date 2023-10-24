@@ -52,7 +52,13 @@ steps:
   args: 
   - '-c'
   - |
+      cd Stage1
       export TF_VAR_project=$PROJECT_ID
+      export TF_VAR_gcve_region=$_REGION
+      export TF_VAR_pc_name=$_PC_NAME
+      export TF_VAR_gcve_zone=$_REGION-$_ZONE
+      export TF_VAR_vmware_engine_network_name=$_REGION-default
+      export TF_VAR_pc_cidr_range=$_CIDR_RANGE
       echo ""
       echo "*************** TERRAFORM INIT ******************"
       echo "******* At environment: $PROJECT_ID ********"

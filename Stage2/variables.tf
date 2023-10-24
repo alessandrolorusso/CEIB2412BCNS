@@ -14,7 +14,7 @@ variable "vsphere_user" {
    default = "CloudOwner@gve.local"
 }
 
-variable "vsphere_user" {
+variable "nsx_user" {
    description = "NSX User"
    type = string
    default = "admin"

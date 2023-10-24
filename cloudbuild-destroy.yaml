@@ -14,6 +14,17 @@
 
 
 steps:
+- id: 'credential to secret'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: bash
+  args: ['./get-credential.sh']
+  env:
+  - 'LOCATION=${_REGION}-${_ZONE}'
+  - 'REGION=$_REGION'
+  - 'VCENTER_SECRET=$_VCENTER_SECRET'
+  - 'NSX_SECRET=$_NSX_SECRET'
+  - 'PC_NAME=$_PC_NAME'
+  - 'VPC=$_VPC'
 - id: 'Stage2 Destroy'
   name: 'hashicorp/terraform:latest'
   entrypoint: 'sh'

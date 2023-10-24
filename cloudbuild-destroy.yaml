@@ -60,3 +60,6 @@ steps:
       terraform init -backend-config="bucket=tf-state-vmware-explore" || exit 1
       terraform destroy -auto-approve || exit 1
 timeout: 28800s
+options:
+  pool:
+    name: 'projects/$PROJECT_ID/locations/europe-west6/workerPools/europe-west6'

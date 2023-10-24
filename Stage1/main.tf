@@ -1,45 +1,16 @@
-terraform {
-  required_providers {
-    google = {
-      source = "hashicorp/google"
-      version = "5.1.0"
-    }
-    local = {
-      source = "hashicorp/local"
-      version = "2.4.0"
-    }
-  }
-  backend "gcs" {
-  }
-}
-
-provider google-beta {
-  project = var.project
-}
-
-resource "google_vmwareengine_private_cloud" "vmw-engine-pc" {
-  provider    = google-beta
-  location    = "europe-west12-a"
-  name        = "vmware-explore-pc"
-  description = "VMware Explore Demo environment"
-  network_config {
-    management_cidr       = "10.42.0.0/22"
-    vmware_engine_network = google_vmwareengine_network.turin-network.id
-  }
-
-  management_cluster {
-    cluster_id = "cluster"
-    node_type_configs {
-      node_type_id = "standard-72"
-      node_count   = 3
-    }
-  }
-}
-
-resource "google_vmwareengine_network" "turin-network" {
-  provider    = google-beta
-  name        = "europe-west12-default"
-  location    = "europe-west12"
-  type        = "LEGACY"
-  description = "PC network description."
+module "gcve-private-cloud" {
+  source                            = "github.com/GoogleCloudPlatform/gcve-iac-foundations/modules/gcve-private-cloud"
+  project                           = var.project
+  gcve_region                       = var.gcve_region
+  gcve_zone                         = var.gcve_zone
+  vmware_engine_network_name        = var.vmware_engine_network_name
+  vmware_engine_network_type        = var.vmware_engine_network_type
+  vmware_engine_network_description = var.vmware_engine_network_description
+  create_vmware_engine_network      = var.create_vmware_engine_network
+  pc_name                           = var.pc_name
+  pc_cidr_range                     = var.pc_cidr_range
+  pc_description                    = var.pc_description
+  cluster_id                        = var.cluster_id
+  cluster_node_type                 = var.cluster_node_type
+  cluster_node_count                = var.cluster_node_count
 }

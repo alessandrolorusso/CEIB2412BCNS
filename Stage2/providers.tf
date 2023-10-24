@@ -1,26 +1,3 @@
-terraform {
-  required_providers {
-    google = {
-      source = "hashicorp/google"
-      version = "5.1.0"
-    }
-    local = {
-      source = "hashicorp/local"
-      version = "2.4.0"
-    }
-    nsxt = {
-      source = "vmware/nsxt"
-    }
-    vsphere = {
-      source = "hashicorp/vsphere"
-      version = "2.4.0"
-    }
-  }
-  backend "gcs" {
-      prefix="stage2"
-    }
-}
-
 provider google {
   project = var.project
 }
@@ -43,7 +20,7 @@ data "local_file" "nsx-fqdn" {
 provider "nsxt" {
   # Configuration options
   host                  = data.local_file.nsx-fqdn.content
-  username              = "admin"
+  username              = var.nsx_user
   password              = data.google_secret_manager_secret_version_access.nsx-credential.secret_data
   allow_unverified_ssl  = true
   max_retries           = 10

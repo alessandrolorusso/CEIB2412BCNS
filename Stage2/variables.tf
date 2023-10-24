@@ -102,3 +102,57 @@ variable "vsphere_resource_pool_config" {
     role_assignments = any,
   }))
 }
+
+
+variable "vm_mon_name" {
+  description = "GCE VM name where GCVE monitoring agent will run"
+  type        = string
+}
+
+variable "vm_mon_type" {
+  description = "GCE VM machine type"
+  type        = string
+  default     = "e2-small"
+}
+
+variable "vm_mon_zone" {
+  description = "GCP zone where GCE VM will be deployed"
+  type        = string
+}
+
+variable "vpc" {
+  description = "VPC where the VM will be deployed to"
+  type        = string
+}
+
+variable "subnetwork" {
+  description = "Subnetwork where the VM will be deployed to"
+  type        = string
+}
+
+variable "sa_gcve_monitoring" {
+  description = "Service account for GCVE monitoring agent"
+  type        = string
+}
+
+variable "secret_vsphere_server" {
+  type        = string
+  description = "The secret name conatining the FQDN of the vSphere vCenter server"
+}
+
+variable "secret_vsphere_user" {
+  type        = string
+  description = "The secret name containing the user for the vCenter server. Must be an admin user"
+}
+
+
+variable "gcve_region" {
+  description = "Region where the Private Cloud is deployed"
+  type        = string
+}
+
+variable "create_dashboards" {
+  description = "Define if sample GCVE monitoring dashboards should be installed"
+  type        = bool
+  default     = true
+}

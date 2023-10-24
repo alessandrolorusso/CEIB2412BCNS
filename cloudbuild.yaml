@@ -38,13 +38,14 @@ steps:
   - |
       cd Stage2
       export TF_VAR_project=$PROJECT_ID
-      export TF_VAR_region=$_REGION
-      export TF_VAR_pc_name=$_PC_NAME
-      export TF_VAR_zone=$_REGION-$_ZONE
+      export TF_VAR_gcve_region=$_REGION
+      export TF_VAR_vm_mon_zone=$_REGION-$_ZONE
       export TF_VAR_nsxsecret=$_NSX_SECRET
       export TF_VAR_secret=$_VCENTER_SECRET
+      export TF_VAR_pc_name=$_PC_NAME
       export TF_VAR_ovfpath=/workspace/$_TEMPLATE
       export TF_LOG=INFO
+      export TF_VAR_subnetwork=$_SUBNET
       echo ""
       echo "*************** TERRAFORM Stage 2 ******************"
       echo "******* At environment: $PROJECT_ID ****************"

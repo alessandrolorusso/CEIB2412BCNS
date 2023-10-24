@@ -120,11 +120,6 @@ variable "vm_mon_zone" {
   type        = string
 }
 
-variable "vpc" {
-  description = "VPC where the VM will be deployed to"
-  type        = string
-}
-
 variable "subnetwork" {
   description = "Subnetwork where the VM will be deployed to"
   type        = string

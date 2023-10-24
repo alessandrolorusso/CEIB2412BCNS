@@ -14,7 +14,28 @@
 
 
 steps:
-- id: 'tf init'
+- id: 'Stage2 Destroy'
+  name: 'hashicorp/terraform:latest'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - |
+      cd Stage2
+      export TF_VAR_project=$PROJECT_ID
+      export TF_VAR_region=$_REGION
+      export TF_VAR_pc_name=$_PC_NAME
+      export TF_VAR_zone=$_REGION-$_ZONE
+      export TF_VAR_nsxsecret=$_NSX_SECRET
+      export TF_VAR_secret=$_VCENTER_SECRET
+      export TF_VAR_ovfpath=/workspace/$_TEMPLATE
+      export TF_LOG=INFO
+      echo ""
+      echo "*************** TERRAFORM Destroy ******************"
+      echo "******* At environment: $PROJECT_ID ********"
+      echo "*************************************************"
+      terraform init -backend-config="bucket=tf-state-vmware-explore" || exit 1
+      terraform destroy -auto-approve || exit 1
+- id: 'Stage 1 Destroy'
   name: 'hashicorp/terraform:latest'
   entrypoint: 'sh'
   args: 

@@ -50,7 +50,7 @@ gwf_policies = [
     sequence_number = 1000
     rules = [
       {
-        action             = "DROP"
+        action             = "ALLOW"
         destination_groups = ["10.123.2.0/23"]
         source_groups      = []
         direction          = "IN"
@@ -93,7 +93,7 @@ dfw_policies = [
     sequence_number = 1000
     rules = [
       {
-        action             = "DROP"
+        action             = "ALLOW"
         destination_groups = []
         source_groups      = []
         direction          = "IN"

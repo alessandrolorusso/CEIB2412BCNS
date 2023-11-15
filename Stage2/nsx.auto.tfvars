@@ -17,6 +17,7 @@ segments = [
       tier        = "backend",
       environment = "dev"
     }
+  },
   {
     description  = "vmug-subnet-1"
     display_name = "vmug-subnet-1"

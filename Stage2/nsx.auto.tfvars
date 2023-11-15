@@ -17,6 +17,14 @@ segments = [
       tier        = "backend",
       environment = "dev"
     }
+  {
+    description  = "vmug-subnet-1"
+    display_name = "vmug-subnet-1"
+    cidr         = "10.123.3.1/24"
+    tags = {
+      tier        = "vmug",
+      environment = "prod"
+    }
   }
 ]
 
